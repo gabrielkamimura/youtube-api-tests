@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>Faça upload do seu vídeo</h1>
+  <p>
+    Ele deve ir para o canal 
+    <a target="_blank" href="https://www.youtube.com/channel/UCWFyiLLnDZ6agp559S21bCA?view_as=subscriber" class="btn btn-link">Teste de canal</a>
+  </p>
+  <div ng-if="mensagem" ng-class="mensagem.tipo == 'sucesso' ? 'alert-success' : 'alert-danger'" class="alert alert-primary" role="alert">
+    {{ mensagem.texto }}
+  </div>
+
+  <form ng-submit="enviarVideo(arquivo, titulo, descricao)">
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Título</label>
+      <input required type="text" class="form-control" id="exampleFormControlInput1" data-ng-model="titulo">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Descrição</label>
+      <textarea required class="form-control" id="exampleFormControlTextarea1" rows="3" data-ng-model="descricao"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlFile1">Example file input</label>
+      <input files-input data-ng-model="arquivo" type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+    <div style="margin-top: 2em; text-align: right;">
+      <input required class="btn btn-primary" type="submit" label="Enviar" />
+    </div>
+  </form>
+</div>

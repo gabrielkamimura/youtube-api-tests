@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html data-ng-app="suaapp" data-ng-strict-di data-ng-controller="SuaAppCtrl">
+
+<head>
+  <title>Sua App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <link rel="stylesheet" href="/app/style.min.css" />
+  <link href="/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+  <!--
+    Área para carregamento da página
+  -->
+  <div class="m-app-loading" ng-animate-children>
+    <style type="text/css">
+       div.m-app-loading{
+          position: absolute; z-index: 999; width: 100%; height: 100%; background-color: #2E3F70;
+        }
+       div.m-app-loading div.animated-container.ng-leave{opacity: 1.0 ; transition: all linear 200ms ; -webkit-transition: all linear 200ms ;}
+       div.m-app-loading div.animated-container.ng-leave-active{opacity: 0 ;}
+       div.m-app-loading div.messaging{color: #FFFFFF ; left: 0px ; margin-top: -37px ; position: absolute ; right: 0px ; text-align: center ; top: 50% ;}
+       div.m-app-loading h1{font-size: 32px ; line-height: 35px ; margin: 0px 0px 20px 0px ; font-weight: 400;}
+    </style>
+    <div class="animated-container">
+      <div class="messaging">
+        <h1>Sua App</h1>
+        <svg class="spinner" width="35px" height="35px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+         <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal alternável -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+<!--     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div> -->
+  </nav>
+  <div data-ng-view></div>
+  
+  <!--AngularJS -->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script>
+    if (typeof angular == 'undefined') {
+      document.write('<script src="node_modules/angular/angular.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- JQuery -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script>
+    if (typeof $ == 'undefined') {
+      document.write('<script src="node_modules/jquery/dist/jquery.min.js"><\/script>');
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+  <!--ngRoute-->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>
+  <script>
+    try {
+      angular.module('ngRoute');
+    }
+    catch (err) {
+      document.write('<script src="node_modules/angular-route/angular-route.min.js"><\/script>');
+    }
+  </script>
+
+  <!--ngAria-->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+  <script>
+    try {
+      angular.module('ngAria');
+    }
+    catch (err) {
+      document.write('<script src="node_modules/angular-aria/angular-aria.min.js"><\/script>');
+    }
+  </script>
+
+  <!--ngAnimate-->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+  <script>
+    try {
+      angular.module('ngAnimate');
+    }
+    catch (err) {
+      document.write('<script src="node_modules/angular-animate/angular-animate.min.js"><\/script>');
+    }
+  </script>
+
+  <!--ngCookies-->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-cookies.min.js"></script>
+  <script>
+    try {
+      angular.module('ngCookies');
+    }
+    catch (err) {
+      document.write('<script src="node_modules/angular-cookies/angular-cookies.min.js"><\/script>');
+    }
+  </script>
+
+  <!--ngMessages-->
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-messages.min.js"></script>
+  <script>
+    try {
+      angular.module('ngMessages');
+    }
+    catch (err) {
+      document.write('<script src="node_modules/angular-messages/angular-messages.min.js"><\/script>');
+    }
+  </script>
+  <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
+  <script src="app/app.js"></script>
+  <script src="app/constants.js"></script>
+  <script src="app/modules/module1/module1Routes.js"></script>
+  <script src="app/modules/module1/module1Ctrl.js"></script>
+  <script src="app/modules/module1/module1Service.js"></script>
+  
+  <script src="app/shared/general1/general1Ctrl.js"></script>
+  <script src="app/shared/page-title/page-title.js"></script>
+
+  <script src="app/shared/youtube/youtubeFactory.js"></script>
+
+<!--  <script src="app/app.min.js"></script>-->
+</body>
+
+</html>

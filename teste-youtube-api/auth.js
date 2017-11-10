@@ -32,6 +32,7 @@ function checkAuth() {
 // Handle the result of a gapi.auth.authorize() call.
 function handleAuthResult(authResult) {
     console.log(authResult);
+    $("#user_key").html(authResult.client_id)
   if (authResult && !authResult.error) {
     // Authorization was successful. Hide authorization prompts and show
     // content that should be visible after authorization succeeds.
