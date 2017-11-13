@@ -1,0 +1,180 @@
+<!-- The top of file index.html -->
+<html itemscope itemtype="http://schema.org/Article">
+<head>
+  <!-- BEGIN Pre-requisites -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+  </script>
+  <!-- END Pre-requisites -->
+
+  <!-- Continuing the <head> section -->
+  <script>
+    var OAUTH2_CLIENT_ID = '682239625401-39f64qpsctu3nncq12k527t4c154n6h4.apps.googleusercontent.com';
+
+
+    function start() {
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: OAUTH2_CLIENT_ID,
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+        });
+      });
+    }
+  </script>
+</head>
+<body>
+  <button id="signinButton">Sign in with Google</button>
+  <button onclick="testarAuthSemLogin()">Testar o clique</button>
+  <script>
+    $('#signinButton').click(function() {
+      // signInCallback defined in step 6.
+      auth2.grantOfflineAccess().then(signInCallback);
+    });
+  </script>
+  <!-- Last part of BODY element in file index.html -->
+  <script>
+  function signInCallback(authResult) {
+    if (authResult['code']) {
+
+      // Hide the sign-in button now that the user is authorized, for example:
+      $('#signinButton').attr('style', 'display: none');
+      console.log(authResult);
+      refreshToken(authResult['code']);
+      // Send the code to the server
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'http://example.com/storeauthcode',
+      //   // Always include an `X-Requested-With` header in every AJAX request,
+      //   // to protect against CSRF attacks.
+      //   headers: {
+      //     'X-Requested-With': 'XMLHttpRequest'
+      //   },
+      //   contentType: 'application/octet-stream; charset=utf-8',
+      //   success: function(result) {
+      //     // Handle or verify the server response.
+      //   },
+      //   processData: false,
+      //   data: authResult['code']
+      // });
+    } else {
+      // There was an error.
+    }
+  }
+
+  // Monta uma url com base num objeo de parâmetros
+  function UriUrlParams(baseUri, params) {
+      var tmp = {url: baseUri};
+      for (var i in params) {
+          addParamToUrl(tmp, i, params[i]);
+      }
+      return tmp.url;
+  }
+
+  function addParamToUrl(url, index, value) {
+      if (!isObject(value)) {
+          if (url.url.indexOf('?') == -1) {
+              url.url += '?' + index + '=' + value;
+          } else {
+              url.url += '&' + index + '=' + value;
+          }
+      } else {
+          for (var i in value) {
+              addParamToUrl(url, index + '.' + i, value[i]);
+          }
+      }
+  };
+
+  function isObject (item) {
+    return (typeof item === "object" && !Array.isArray(item) && item !== null);
+  }
+
+
+  /**
+   * Verifica a situação atual do token e quanto tempo falta pra ele vencer
+   */
+  // function refreshToken(user_key) {
+  //   console.log("Recarregando token")
+
+  //   var obj = {
+  //     refresh_token: user_key,
+  //     client_id: OAUTH2_CLIENT_ID,
+  //     client_secret: 'et7bDKl3xG1ueTEtUz6a8Rh4',
+  //     grant_type: 'refresh_token',
+  //     access_type: 'offline'
+  //   };
+  //   var url = UriUrlParams("https://www.googleapis.com/oauth2/v4/token", obj);
+
+  //   var xhttp = new XMLHttpRequest();
+  //   xhttp.onreadystatechange = function() {
+  //     if (this.readyState == 4 && this.status == 200) {
+  //       console.log(JSON.parse(this.responseText));
+  //     }
+  //   };
+  //   xhttp.open("POST", url, true);
+  //   xhttp.send(JSON.stringify(obj));
+  // }
+  
+  function refreshToken(code) {
+    console.log("Recarregando token")
+
+    var obj = {
+      code: code,
+      client_id: OAUTH2_CLIENT_ID,
+      client_secret: 'et7bDKl3xG1ueTEtUz6a8Rh4',
+      grant_type: 'authorization_code',
+      access_type: 'offline',
+      redirect_uri: 'http://localhost:8081'
+    };
+    var url = UriUrlParams("https://www.googleapis.com/oauth2/v4/token", obj);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(JSON.parse(this.responseText));
+      }
+    };
+    xhttp.open("POST", url, true);
+    xhttp.send(JSON.stringify(obj));
+  }
+
+  // Cancela um token
+  function revokeToken() {
+    console.log("Recarregando token")
+    var user_key = usuarioLogado.access_token;
+
+    var obj = {
+      refresh_token: user_key,
+      client_id: OAUTH2_CLIENT_ID,
+      client_secret: 'et7bDKl3xG1ueTEtUz6a8Rh4',
+      grant_type: 'refresh_token',
+      access_type: 'offline'
+    };
+    var url = "https://accounts.google.com/o/oauth2/revoke?token=" + user_key;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(JSON.parse(this.responseText));
+      }
+    };
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.send();
+    
+  }
+  </script>
+
+  <script>
+  // Testando a reuperação e a atualização do auth
+    function testarAuthSemLogin() {
+      var tmp = {code: "4/GUei_Gge51f1Qb-r6Tzkw_hM6BM-8HXIcBbqzSxX97Y"};
+
+      refreshToken(tmp.code);
+
+    }
+  </script>
+  <!-- ... -->
+</body>
+</html>

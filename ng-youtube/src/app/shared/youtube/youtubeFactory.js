@@ -116,7 +116,7 @@ var app = angular.module("suaapp")
                     // var token = "AIzaSyColSrZ_eE3UaG9CGPbLxOjak-relV3rfM";
                     // var token = "682239625401-0t5tl7jf7tkd7ehcid0d3skiknomvaec.apps.googleusercontent.com"
                     // var token = "et7bDKl3xG1ueTEtUz6a8Rh4";
-                    var token = "ya29.Glz_BHmZfaolC_l9UVI3j-it-ZTqgLdUGVXc05VGCTHkU0rGmNmxvL7E77xw8dTZWWAdNMnSDdFdkGDWc6F8aEdMIqeUqcX5Jagu16vU7Rjr-80Yto-SQSfQcwFDXw";
+                    var token = "ya29.GlsDBUh-eFlgdmmxyU3ke-nS-8-GF7U5Yp4mPZos268xofRt7UnUqJEqm2KTtV2zHI_-e0gOo8uWqEdgQOfoAwcMO7VC2y8HjhJwll7aN5-m8Wwroz6rO9EUS_e-";
 
                     var file = video[0];
 
