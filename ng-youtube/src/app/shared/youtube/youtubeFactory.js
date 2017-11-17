@@ -48,7 +48,43 @@ var app = angular.module("suaapp")
                 });
               }
             }
+            
+          /**
+           * Verifica a situação atual do token e quanto tempo falta pra ele vencer
+           */
+           function getToken() {
+               var d = $q.defer();
+             var refreshToken = "1/Y36o3Qt8CB4PA6sjYTLAhvGUOfDPKtjjJraAwAJmm5g";
+             console.log("Recarregando token")
 
+             var obj = {
+               refresh_token: refreshToken,
+               client_id: OAUTH2_CLIENT_ID,
+               client_secret: 'et7bDKl3xG1ueTEtUz6a8Rh4',
+               grant_type: 'refresh_token',
+               access_type: 'offline'
+             };
+             var url = UriUrlParams("https://www.googleapis.com/oauth2/v4/token", obj);
+               $http.post(url, obj)
+                .success(function(user) {
+                   d.resolve(user);
+                }).error(function(error) {
+                   d.reject(error);
+               })
+//             var xhttp = new XMLHttpRequest();
+//             xhttp.onreadystatechange = function() {
+//               if (this.readyState == 4 && this.status == 200) {
+//                 d.resolve(JSON.parse(this.responseText));
+//               } else {
+//                   d.reject("Falha ao buscar token");
+//               }
+//             };
+//             xhttp.open("POST", url, true);
+//             xhttp.send(JSON.stringify(obj));
+               
+               return d.promise;
+           }
+            
             function fileToObject(file) {
                 var tmp = {};
 
@@ -116,37 +152,40 @@ var app = angular.module("suaapp")
                     // var token = "AIzaSyColSrZ_eE3UaG9CGPbLxOjak-relV3rfM";
                     // var token = "682239625401-0t5tl7jf7tkd7ehcid0d3skiknomvaec.apps.googleusercontent.com"
                     // var token = "et7bDKl3xG1ueTEtUz6a8Rh4";
-                    var token = "ya29.GlsDBUh-eFlgdmmxyU3ke-nS-8-GF7U5Yp4mPZos268xofRt7UnUqJEqm2KTtV2zHI_-e0gOo8uWqEdgQOfoAwcMO7VC2y8HjhJwll7aN5-m8Wwroz6rO9EUS_e-";
+                    getToken().then(function(user) {
+                        var token = user.access_token;
+                        var file = video[0];
 
-                    var file = video[0];
 
-        
-                    var dados = {
-                        part: 'snippet,status',
-                        resource: {
-                            snippet: {
-                                title: titulo,
-                                description: descricao,
-                                categoryId: "22"
-                            },
-                            status: {
-                                privacyStatus: "private"
+                        var dados = {
+                            part: 'snippet,status',
+                            resource: {
+                                snippet: {
+                                    title: titulo,
+                                    description: descricao,
+                                    categoryId: "22"
+                                },
+                                status: {
+                                    privacyStatus: "private"
+                                }
                             }
                         }
-                    }
 
-                    $http({ method: 'POST',
-                            url: UriUrlParams('https://www.googleapis.com/upload/youtube/v3/videos', dados),
-                            headers: {
-                                        'Authorization': 'Bearer ' + token,
-                                        'Content-type': 'video/*'
-                                    },
-                            data: file,
-                        }).success(function(response) {
-                            d.resolve(response);
-                        }).error(function(response) {
-                            d.reject(response.error);
-                        });
+                        $http({ method: 'POST',
+                                url: UriUrlParams('https://www.googleapis.com/upload/youtube/v3/videos', dados),
+                                headers: {
+                                            'Authorization': 'Bearer ' + token,
+                                            'Content-type': 'video/*'
+                                        },
+                                data: file,
+                            }).success(function(response) {
+                                d.resolve(response);
+                            }).error(function(response) {
+                                d.reject(response.error);
+                            });
+                        
+                    })
+
 
                     return d.promise;
                 }

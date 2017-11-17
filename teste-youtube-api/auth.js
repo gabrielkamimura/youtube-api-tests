@@ -112,6 +112,8 @@ function refreshToken() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
+			usuarioLogado.access_token = JSON.parse(this.responseText).access_token;
+			console.log(usuarioLogado);
 			console.log(JSON.parse(this.responseText));
 		}
 	};
