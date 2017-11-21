@@ -99,8 +99,6 @@ var app = angular.module("suaapp")
 
 
                         var dados = {
-                            part: 'snippet,status',
-                            resource: {
                                 snippet: {
                                     title: titulo,
                                     description: descricao,
@@ -109,21 +107,43 @@ var app = angular.module("suaapp")
                                 status: {
                                     privacyStatus: "private"
                                 }
-                            }
+                            
                         }
-
-                        $http({ method: 'POST',
-                                url: UriUrlParams('https://www.googleapis.com/upload/youtube/v3/videos', dados),
-                                headers: {
-                                            'Authorization': 'Bearer ' + token,
-                                            'Content-type': 'video/*'
-                                        },
-                                data: file,
-                            }).success(function(response) {
-                                d.resolve(response);
-                            }).error(function(response) {
-                                d.reject(response.error);
-                            });
+                        
+                        var parameters = JSON.stringify(dados);
+                        
+                        var jsonBlob = new Blob([ parameters ], { "type" : "application\/json" });
+                        var fd = new FormData();
+                        fd.append("snippet", jsonBlob, "file.json");
+                        fd.append("file", file);
+                        
+//                        $http({ method: 'POST',
+//                                url: UriUrlParams('https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status', dados),
+//                                headers: {
+//                                            'Authorization': 'Bearer ' + token,
+//                                            'Content-type': 'video/*'
+//                                        },
+//                                data: fd,
+//                            }).success(function(response) {
+//                                d.resolve(response);
+//                            }).error(function(response) {
+//                                d.reject(response.error);
+//                            });
+                        
+                        var invocation = new XMLHttpRequest();
+                        console.log(invocation)
+                        invocation.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                               console.log(invocation.responseText);
+                                d.resolve(invocation.responseText);
+                            } else {
+//                                d.reject(invocation.responseText)
+                            }
+                        };
+                        invocation.open('POST', "https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status", true);
+                        invocation.setRequestHeader('Authorization', 'Bearer ' + token);
+                        invocation.send(fd);
+                        
                         
                     })
 

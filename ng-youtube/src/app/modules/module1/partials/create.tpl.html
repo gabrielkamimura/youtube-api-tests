@@ -22,7 +22,8 @@
       <input files-input data-ng-model="arquivo" type="file" class="form-control-file" id="exampleFormControlFile1">
     </div>
     <div style="margin-top: 2em; text-align: right;">
-      <input required class="btn btn-primary" type="submit" label="Enviar" />
+      <span ng-if="carregando">Enviando vídeo. Isso pode demorar bastante. Por favor, não feche essa página</span>
+      <input data-ng-disabled="carregando" required class="btn btn-primary" type="submit" label="Enviar" />
     </div>
   </form>
 </div>
