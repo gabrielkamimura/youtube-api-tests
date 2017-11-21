@@ -5,49 +5,10 @@ var app = angular.module("suaapp")
 
         '$http', '$q', 'apiUrl','$timeout',
         function($http, $q, apiUrl, $timeout) {
-            // The client ID is obtained from the Google Developers Console
-            // at https://console.developers.google.com/.
-            // If you run this code from a server other than http://localhost,
-            // you need to register your own client ID.
             var OAUTH2_CLIENT_ID = '682239625401-39f64qpsctu3nncq12k527t4c154n6h4.apps.googleusercontent.com';
             var OAUTH2_SCOPES = [
               'https://www.googleapis.com/auth/youtube'
             ];
-
-            // Attempt the immediate OAuth 2.0 client flow as soon as the page loads.
-            // If the currently logged-in Google Account has previously authorized
-            // the client specified as the OAUTH2_CLIENT_ID, then the authorization
-            // succeeds with no user intervention. Otherwise, it fails and the
-            // user interface that prompts for authorization needs to display.
-            function checkAuth() {
-              gapi.auth.authorize({
-                client_id: OAUTH2_CLIENT_ID,
-                scope: OAUTH2_SCOPES,
-                immediate: true
-              }, handleAuthResult);
-            }
-
-            // Handle the result of a gapi.auth.authorize() call.
-            function handleAuthResult(authResult) {
-                console.log(authResult);
-              if (authResult && !authResult.error) {
-                // Authorization was successful. Hide authorization prompts and show
-                // content that should be visible after authorization succeeds.
-                $('.pre-auth').hide();
-                $('.post-auth').show();
-                loadAPIClientInterfaces();
-              } else {
-                // Make the #login-link clickable. Attempt a non-immediate OAuth 2.0
-                // client flow. The current function is called when that flow completes.
-                $('#login-link').click(function() {
-                  gapi.auth.authorize({
-                    client_id: OAUTH2_CLIENT_ID,
-                    scope: OAUTH2_SCOPES,
-                    immediate: false
-                    }, handleAuthResult);
-                });
-              }
-            }
             
           /**
            * Verifica a situação atual do token e quanto tempo falta pra ele vencer
@@ -70,17 +31,7 @@ var app = angular.module("suaapp")
                    d.resolve(user);
                 }).error(function(error) {
                    d.reject(error);
-               })
-//             var xhttp = new XMLHttpRequest();
-//             xhttp.onreadystatechange = function() {
-//               if (this.readyState == 4 && this.status == 200) {
-//                 d.resolve(JSON.parse(this.responseText));
-//               } else {
-//                   d.reject("Falha ao buscar token");
-//               }
-//             };
-//             xhttp.open("POST", url, true);
-//             xhttp.send(JSON.stringify(obj));
+               });
                
                return d.promise;
            }
@@ -92,16 +43,6 @@ var app = angular.module("suaapp")
                     tmp[i] = file[i];
                 }
                 return tmp;
-            }
-
-            // Load the client interfaces for the YouTube Analytics and Data APIs, which
-            // are required to use the Google APIs JS client. More info is available at
-            // http://code.google.com/p/google-api-javascript-client/wiki/GettingStarted#Loading_the_Client
-            function loadAPIClientInterfaces() {
-              gapi.client.load('youtube', 'v3', function() {
-            //    handleAPILoaded();
-                  
-              });
             }
 
             function toFormData(obj) {
