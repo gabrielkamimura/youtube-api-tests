@@ -1,7 +1,7 @@
 class TokenGeneratorCtrl {
     
-    constructor(OAUTH2_CLIENT_ID = '682239625401-39f64qpsctu3nncq12k527t4c154n6h4.apps.googleusercontent.com',
-                CLIENT_SECRET = 'et7bDKl3xG1ueTEtUz6a8Rh4') {
+    constructor(OAUTH2_CLIENT_ID = '',
+                CLIENT_SECRET = '') {
         this.OAUTH2_CLIENT_ID = OAUTH2_CLIENT_ID;
         this.CLIENT_SECRET = CLIENT_SECRET;
         
